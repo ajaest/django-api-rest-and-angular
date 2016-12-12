@@ -28,10 +28,10 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG or True:
     from django.views.static import serve
     urlpatterns += [
         url(r'^(?P<path>favicon\..*)$', serve, {'document_root': settings.STATIC_ROOT}),
-        url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], serve, {'document_root': settings.MEDIA_ROOT}),
-        url(r'^%s(?P<path>.*)$' % settings.STATIC_URL[1:], serve, dict(insecure=True)),
+        url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:] , serve, {'document_root': settings.MEDIA_ROOT}),
+        url(r'^%s(?P<path>.*)$' % settings.STATIC_URL[1:], serve, {'document_root': settings.STATIC_ROOT}),
     ]

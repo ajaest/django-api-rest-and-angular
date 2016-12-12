@@ -4,6 +4,8 @@ from .api import UserList, UserDetail
 from .api import PostList, PostDetail, UserPostList
 from .api import PhotoList, PhotoDetail, PostPhotoList
 
+from rest_framework_swagger.views import get_swagger_view
+
 user_urls = [
     url(r'^/(?P<username>[0-9a-zA-Z_-]+)/posts$', UserPostList.as_view(), name='userpost-list'),
     url(r'^/(?P<username>[0-9a-zA-Z_-]+)$', UserDetail.as_view(), name='user-detail'),
@@ -21,7 +23,11 @@ photo_urls = [
     url(r'^$', PhotoList.as_view(), name='photo-list')
 ]
 
+
+schema_view = get_swagger_view(title='Pastebin API')
+
 urlpatterns = [
+    url(r'^/?$', schema_view),
     url(r'^users', include(user_urls)),
     url(r'^posts', include(post_urls)),
     url(r'^photos', include(photo_urls)),

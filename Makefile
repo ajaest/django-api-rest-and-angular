@@ -5,6 +5,7 @@ create_database:
 	./manage.py makemigrations --noinput
 	./manage.py migrate --noinput
 	./manage.py createsuperuser --username=root --email=root@example.com --noinput
+	chown apache:apache example.sqlite
 
 make_fixtures:
 	./manage.py create_users
