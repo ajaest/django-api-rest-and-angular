@@ -1,7 +1,10 @@
 from django.conf.urls import include, url
 from django.conf import settings
+from django.template.exceptions import TemplateDoesNotExist
 
 from django.views.generic import TemplateView
+
+from django.http.response import Http404
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -18,7 +21,12 @@ class SimpleStaticView(TemplateView):
             # Auto-login the User for Demonstration Purposes
             user = authenticate()
             login(request, user)
-        return super(SimpleStaticView, self).get(request, *args, **kwargs)
+        try:
+            response = super(SimpleStaticView, self).get(request, *args, **kwargs)
+            response.render()
+            return response
+        except TemplateDoesNotExist:
+            raise Http404
 
 
 urlpatterns = [

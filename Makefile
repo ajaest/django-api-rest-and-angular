@@ -12,4 +12,7 @@ make_fixtures:
 	./env/bin/python ./manage.py create_posts
 	./env/bin/python ./manage.py create_photos
 
-all: clean create_database make_fixtures
+make_scripts:
+	grunt
+
+all: make_scripts clean create_database make_fixtures

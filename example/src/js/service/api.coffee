@@ -1,22 +1,35 @@
 app = angular.module 'example.api', ['ngResource']
 
-app.factory 'User', ['$resource', ($resource) ->
-    $resource '/api/users/:username', username: '@username'
+app.factory 'baseUrl', () ->
+    'http://blog.agresebe.com'
+
+app.run [ '$http', 'login', ($http, login) ->
+    $http.defaults.headers.common.Authorization = 'Basic Y2FuZGlkYXRlOnlvdUNhbkRvSXQh'
+
+    login.get()
 ]
 
-app.factory 'Post', ['$resource', ($resource) ->
-    $resource '/api/posts/:id', id: '@id'
+app.factory 'login', ['baseUrl', '$resource', (baseUrl, $resource) ->
+    $resource baseUrl + '/api/login'
 ]
 
-app.factory 'Photo', ['$resource', ($resource) ->
-    $resource '/api/photos/:id', id: '@id'
+app.factory 'User', ['baseUrl', '$resource', (baseUrl, $resource) ->
+    $resource baseUrl + '/api/users/:username', username: '@username'
+]
+
+app.factory 'Post', ['baseUrl', '$resource', (baseUrl, $resource) ->
+    $resource baseUrl + '/api/posts/:id', id: '@id'
+]
+
+app.factory 'Photo', ['baseUrl', '$resource', (baseUrl, $resource) ->
+    $resource baseUrl + '/api/photos/:id', id: '@id'
 ]
 
 # And the nested resources
-app.factory 'UserPost', ['$resource', ($resource) ->
-    $resource '/api/users/:username/posts/:id'
+app.factory 'UserPost', ['baseUrl', '$resource', (baseUrl, $resource) ->
+    $resource baseUrl + '/api/users/:username/posts/:id'
 ]
 
-app.factory 'PostPhoto', ['$resource', ($resource) ->
-    $resource '/api/posts/:post_id/photos/:id'
+app.factory 'PostPhoto', ['baseUrl', '$resource', (baseUrl, $resource) ->
+    $resource baseUrl + '/api/posts/:post_id/photos/:id'
 ]

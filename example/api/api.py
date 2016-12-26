@@ -1,10 +1,15 @@
 from rest_framework import generics, permissions
 
-
+from rest_framework import serializers
 from .serializers import UserSerializer, PostSerializer, PhotoSerializer
 from .models import User, Post, Photo
 from .permissions import PostAuthorCanEditPermission
 
+from django.contrib.auth import login, authenticate
+
+import rest_framework.response as rest_response
+
+import django.middleware.csrf
 
 class UserMixin(object):
     model = User
@@ -79,3 +84,43 @@ class PostPhotoList(generics.ListAPIView):
     def get_queryset(self):
         queryset = super(PostPhotoList, self).get_queryset()
         return queryset.filter(post__pk=self.kwargs.get('pk'))
+
+
+class LoginServiceSerializer(serializers.Serializer):
+
+    username = serializers.CharField(required=False, allow_null=True)
+    password = serializers.CharField(required=False, allow_null=True)
+
+
+class LoginAPIServiceView(
+    generics.GenericAPIView
+):
+    short_description = 'API for logging users in'
+
+    name = 'profile_restV1_login_service'
+
+    allowed_methods = ('GET', 'POST')
+
+    pagination_class = None
+
+    serializer_class = LoginServiceSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request)
+
+    def post(self, request, *args, **kwargs):
+
+        user = authenticate()
+
+        login(request, user)
+
+        message = {
+            'message': 'Logged in',
+            'named_messages': {
+                'csrf-token': django.middleware.csrf.get_token(request),
+                'user-id': user.id,
+                'session-key': request.session.session_key
+            }
+        }
+
+        return rest_response.Response(message)

@@ -3,6 +3,7 @@ from django.conf.urls import url, include
 from .api import UserList, UserDetail
 from .api import PostList, PostDetail, UserPostList
 from .api import PhotoList, PhotoDetail, PostPhotoList
+from .api import LoginAPIServiceView
 
 from rest_framework_swagger.views import get_swagger_view
 
@@ -27,8 +28,9 @@ photo_urls = [
 schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
-    url(r'^/?$', schema_view),
+    url(r'^$', schema_view),
     url(r'^users', include(user_urls)),
     url(r'^posts', include(post_urls)),
     url(r'^photos', include(photo_urls)),
+    url(r'^login$', LoginAPIServiceView.as_view(), name='login')
 ]
