@@ -27,9 +27,9 @@
 {{ block.super }}
 <script>
 // Add the CSRF Token
-var app = angular.module('example.app.editor'); // Not including a list of dependent modules (2nd parameter to `module`) "re-opens" the module for additional configuration
-app.config(['$httpProvider', function($httpProvider) {
-    $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
-}]);
+// var app = angular.module('example.app.editor'); // Not including a list of dependent modules (2nd parameter to `module`) "re-opens" the module for additional configuration
+// app.config(['$httpProvider', function($httpProvider) {
+//     $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
+// }]);
 </script>
 {% endblock %}

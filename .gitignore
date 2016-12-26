@@ -6,3 +6,4 @@ API_Example.egg-info/
 node_modules/
 example/static
 example.sqlite
+logs/
