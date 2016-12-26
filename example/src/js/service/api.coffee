@@ -5,6 +5,7 @@ app.factory 'baseUrl', () ->
 
 app.run [ '$http', 'login', ($http, login) ->
     $http.defaults.headers.common.Authorization = 'Basic Y2FuZGlkYXRlOnlvdUNhbkRvSXQh'
+    $http.defaults.withCredentials = true;
 
     login.get()
 ]
