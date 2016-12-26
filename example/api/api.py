@@ -117,9 +117,8 @@ class LoginAPIServiceView(
         message = {
             'message': 'Logged in',
             'named_messages': {
-                'csrf-token': django.middleware.csrf.get_token(request),
-                'user-id': user.id,
-                'session-key': request.session.session_key
+                'csrftoken': django.middleware.csrf.get_token(request),
+                'sessionid': request.session.session_key
             }
         }
 
