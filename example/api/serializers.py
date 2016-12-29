@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserSerializer(required=False)
+    author = UserSerializer(required=False, read_only=True)
     photos = serializers.HyperlinkedIdentityField(view_name='postphoto-list')
     # author = serializers.HyperlinkedRelatedField(view_name='user-detail', lookup_field='username')
 
